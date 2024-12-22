@@ -15,7 +15,7 @@ def add_url():
     url = request.json.get('url')  # Using JSON for AJAX compatibility
     if url:
         key = d.add_key(url)
-        short_url = f"https://small.pythonanywhere.com/{key}"
+        short_url = f"https://maskurl.pythonanywhere.com/{key}"
         return jsonify({'success': True, 'short_url': short_url})
     return jsonify({'success': False, 'message': "No URL provided!"})
 
