@@ -12,7 +12,7 @@ def home():
 @app.route('/add_url', methods=['POST'])
 def add_url():
     d = Database()
-    url = request.json.get('url')  # Using JSON for AJAX compatibility
+    url = request.json.get('url')
     if url:
         key = d.add_key(url)
         short_url = f"https://maskurl.pythonanywhere.com/{key}"
@@ -26,7 +26,10 @@ def reroute(key: str):
     d = Database()
     url = d.get_url(key)
     if url:
-        return redirect(url)
+        if "https://" not in url:
+            return redirect("https://"+url)
+        else:
+            return redirect(url)
     else:
         abort(404)
 
