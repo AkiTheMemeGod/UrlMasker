@@ -1,0 +1,54 @@
+/* Styling for the 404 page */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #1c92d2, #f2fcfe);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: #333333;
+}
+
+.container {
+    max-width: 800px;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.error h1 {
+    font-size: 6rem;
+    color: #007bff;
+    margin: 0;
+}
+
+.error p {
+    font-size: 1.2rem;
+    margin: 10px 0 30px;
+    color: #555555;
+}
+
+.graphic img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.home-button {
+    display: inline-block;
+    padding: 10px 25px;
+    font-size: 1rem;
+    color: white;
+    background: #007bff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.home-button:hover {
+    background: #0056b3;
+}

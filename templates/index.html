@@ -3,41 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener</title>
+    <title>URL Masker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-
 </head>
 <body>
     <div class="container">
-        <h2>URL Masker</h2>
+        <h1 class="title">URL Masker</h1>
+        <p class="subtitle">Create a short link and QR code for your URL</p>
         <input type="url" id="urlInput" placeholder="Enter your URL" required>
-        <button onclick="shortenUrl()">Mask URL</button>
+        <button class="main-button" onclick="shortenUrl()">Mask URL</button>
         <div class="output" id="output"></div>
+        <div class="qr-container" id="qrContainer" style="display: none;">
+            <h3>QR Code</h3>
+            <img id="qrCode" src="" alt="QR Code" style="width:150px;height:150px;">
+        </div>
     </div>
 
     <script>
+        let qrCodeData = "";
+
         async function shortenUrl() {
             const urlInput = document.getElementById("urlInput").value;
             const output = document.getElementById("output");
-            output.textContent = "Processing...";
+            const qrContainer = document.getElementById("qrContainer");
+            qrContainer.style.display = "none";
+            output.innerHTML = "<p>Processing...</p>";
 
-            const response = await fetch('/add_url', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ url: urlInput })
-            });
+            try {
+                const response = await fetch('/add_url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ url: urlInput })
+                });
 
-            const result = await response.json();
-
-            if (result.success) {
-                output.innerHTML = `
-                    Your Masked URL: <a href="${result.short_url}" class="short-url" target="_blank">${result.short_url}</a>
-                `;
-            } else {
-                output.textContent = result.message || "An error occurred!";
+                const result = await response.json();
+                if (result.success) {
+                    qrCodeData = result.qr_code;
+                    output.innerHTML = `
+                        <p>Your Masked URL:</p>
+                        <a href="${result.short_url}" class="short-url" target="_blank">${result.short_url}</a>
+                        <br>
+                        <button class="secondary-button" onclick="showQRCode()">Show QR Code</button>
+                    `;
+                } else {
+                    output.innerHTML = `<p style="color: red;">${result.message || "An error occurred!"}</p>`;
+                }
+            } catch (error) {
+                output.innerHTML = `<p style="color: red;">Failed to connect to the server. Please try again later.</p>`;
             }
+        }
+
+        function showQRCode() {
+            const qrContainer = document.getElementById("qrContainer");
+            const qrCode = document.getElementById("qrCode");
+            qrCode.src = `data:image/png;base64,${qrCodeData}`;
+            qrContainer.style.display = "block";
         }
     </script>
 </body>
