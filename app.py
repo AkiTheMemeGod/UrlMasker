@@ -14,9 +14,9 @@ def add_url():
     url = request.json.get('url')
     if url:
         key, qr = d.add_key(url)
-        short_url = f"http://127.0.0.1:5000/{key}"
+        #short_url = f"http://127.0.0.1:5000/{key}"
 
-#        short_url = f"https://maskurl.pythonanywhere.com/{key}"
+        short_url = f"https://maskurl.pythonanywhere.com/{key}"
         return jsonify({'success': True, 'short_url': short_url, 'qr_code': qr})
     return jsonify({'success': False, 'message': "No URL provided!"})
 
