@@ -1,6 +1,8 @@
 from flask import *
+from flask_cors import CORS
 from assets import Database
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/')
